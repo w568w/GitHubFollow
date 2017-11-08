@@ -17,17 +17,14 @@ class Gitstar():
 	def loginGitStar(self):
 		r=requests.post("http://gitstar.top:88/api/user/login",params={'username':settings.NAME,'password':settings.PASSWORD})
 		self.cookie = r.headers['Set-Cookie']
-		print self.cookie
 	def getGitFollowList(self):
 		self.loginGitStar()
 		url="http://gitstar.top:88/follow"
 		response = requests.get(url,headers={'Accept': 'application/json','Cookie':self.cookie})
 		d = pyq(response.text)
 		jsn = d('.title a')
-		print response
 		list=[]
 		for obj in jsn:
-			print d(obj).attr('href')
 			try:
 				list.append(d(obj).attr('href').replace("https://github.com/",""))
 			except Exception as e:
@@ -39,19 +36,20 @@ class Gitstar():
 			,headers={'Content-Length': '0'}
 			,auth=AUTH)
 
-	def update_gitstar():
+	def update_gitstar(self):
 		url = "http://gitstar.top:88/follow_update"
 		res = requests.get(url,headers={'Accept': 'application/json','Cookie' : self.cookie})
 		print "update:" + str(res.status_code == 200)
 
 G = Gitstar()
 FollowList = G.getGitFollowList()
-print "follow : %d" % len(FollowList)
+t = len(FollowList)
+print "need follow : %d" % t
 i = 1
 for url in FollowList:
 	G.follow(url)
-	print "[%d]Followed! -->%s"%(i,url)
+	print "[%d/%d]Followed! -->%s"%(i,t,url)
 	i = i + 1
 
-if len(FollowList) > 0:
+if t > 0:
 	G.update_gitstar()
