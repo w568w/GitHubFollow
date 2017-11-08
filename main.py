@@ -40,7 +40,7 @@ class Gitstar():
 			,auth=AUTH)
 
 	def update_gitstar():
-		url = "http://gitstar.top:88/update"
+		url = "http://gitstar.top:88/follow_update"
 		res = requests.get(url,headers={'Accept': 'application/json','Cookie' : self.cookie})
 		print "update:" + str(res.status_code == 200)
 
