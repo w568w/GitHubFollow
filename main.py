@@ -2,43 +2,56 @@
 import sys
 import requests
 import json
-import traceback
-from bs4 import BeautifulSoup
+from pyquery import PyQuery as pyq
 from requests.auth import HTTPBasicAuth
+
+import settings
+
 reload(sys)
-NAME="w568w"
-PASSWORD="xxxxxx"
-
-GITNAME="w568w"
-GITPASSWORD="xxxxxx"
-AUTH = HTTPBasicAuth(GITNAME, GITPASSWORD)
 sys.setdefaultencoding('utf-8')
-def loginGitStar():
-	global NAME
-	global PASSWORD
-	r=requests.post("http://gitstar.top:88/api/user/login",params={'username':NAME,'password':PASSWORD})
-	return r.headers['Set-Cookie']
-def getGitFollowList():
-	global NAME
-	cookie=loginGitStar()
-	url="http://gitstar.top:88/follow"
-	response = requests.get(url,headers={'Accept': 'application/json','Cookie':cookie})
-	bs=BeautifulSoup(response.text,"html.parser")
-	jsn=bs.find_all("div",class_="media")
-	list=[]
-	for obj in jsn:
-		try:
-			list.append(obj.find('a')['href'].replace("https://github.com/",""))
-		except Exception as e:
-			pass
-	return list
-def follow(url):
-	global AUTH
-	requests.put("https://api.github.com/user/following/"+url
-		,headers={'Content-Length': '0'}
-		,auth=AUTH)
+COOKIE = None
 
-FollowList=getGitFollowList()
+class Gitstar():
+	def __init__(self):
+		self.cookie = None
+	def loginGitStar(self):
+		r=requests.post("http://gitstar.top:88/api/user/login",params={'username':settings.NAME,'password':settings.PASSWORD})
+		self.cookie = r.headers['Set-Cookie']
+		print self.cookie
+	def getGitFollowList(self):
+		self.loginGitStar()
+		url="http://gitstar.top:88/follow"
+		response = requests.get(url,headers={'Accept': 'application/json','Cookie':self.cookie})
+		d = pyq(response.text)
+		jsn = d('.title a')
+		print response
+		list=[]
+		for obj in jsn:
+			print d(obj).attr('href')
+			try:
+				list.append(d(obj).attr('href').replace("https://github.com/",""))
+			except Exception as e:
+				pass
+		return list
+	def follow(self,url):
+		AUTH = HTTPBasicAuth(settings.GITNAME, settings.GITPASSWORD)
+		requests.put("https://api.github.com/user/following/"+url
+			,headers={'Content-Length': '0'}
+			,auth=AUTH)
+
+	def update_gitstar():
+		url = "http://gitstar.top:88/update"
+		res = requests.get(url,headers={'Accept': 'application/json','Cookie' : self.cookie})
+		print "update:" + str(res.status_code == 200)
+
+G = Gitstar()
+FollowList = G.getGitFollowList()
+print "follow : %d" % len(FollowList)
+i = 1
 for url in FollowList:
-	follow(url)
-	print "Followed! -->{}".format(url)
+	G.follow(url)
+	print "[%d]Followed! -->%s"%(i,url)
+	i = i + 1
+
+if len(FollowList) > 0:
+	G.update_gitstar()
