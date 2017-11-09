@@ -2,9 +2,7 @@
 import sys
 import requests
 import json
-from pyquery import PyQuery as pyq
 from requests.auth import HTTPBasicAuth
-
 import settings
 
 reload(sys)
@@ -19,16 +17,12 @@ class Gitstar():
 		self.cookie = r.headers['Set-Cookie']
 	def getGitFollowList(self):
 		self.loginGitStar()
-		url="http://gitstar.top:88/follow"
+		url = "http://gitstar.top:88/api/users/%s/status/follow-recommend"%settings.NAME
 		response = requests.get(url,headers={'Accept': 'application/json','Cookie':self.cookie})
-		d = pyq(response.text)
-		jsn = d('.title a')
+		jsn=response.json()
 		list=[]
 		for obj in jsn:
-			try:
-				list.append(d(obj).attr('href').replace("https://github.com/",""))
-			except Exception as e:
-				pass
+			list.append(obj['User'])
 		return list
 	def follow(self,url):
 		AUTH = HTTPBasicAuth(settings.GITNAME, settings.GITPASSWORD)

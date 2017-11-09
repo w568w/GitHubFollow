@@ -1,8 +1,8 @@
 # -*- coding:utf-8 -*-  
 
 #############settings#############
-NAME		= "weilaihui" #GitStar用户名
-PASSWORD	= "123456" #GitStar密码
-GITNAME		= "weilaihui" #GitHub用户名
-GITPASSWORD	= "dai1988124" #GitHub密码
+NAME		= "1" #GitStar用户名
+PASSWORD	= "1" #GitStar密码
+GITNAME		= "1" #GitHub用户名
+GITPASSWORD	= "1" #GitHub密码
 #############settings#############
