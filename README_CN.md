@@ -4,9 +4,17 @@ Gitstar自动加粉工具
 # 快速入门
 ## Linux
 ### 第一步
-安装Python 2.x,运行```python --version```and```pip```来确认安装成功。    
-如果你已经安装过了，跳过这一步。  
-__确认你已安装 ```requests```和```BeautifulSoup4```库__
+安装python2.x
+
+安装pip, 从 这里下载[get-pip.py](https://bootstrap.pypa.io/get-pip.py)
+
+接着运行:
+
+> python get-pip.py
+
+安装依赖
+
+> pip install -r requirements.txt
 ### Step2
 打开```main.py```,替换以下内容  
 ```
