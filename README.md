@@ -5,9 +5,13 @@ Auto follow for gitstar.cn
 ## Linux
 ### Step1
 Install Python 2.x,run```python --version```and```pip```for a test.  
+
 To install pip, securely download [get-pip.py](https://bootstrap.pypa.io/get-pip.py)
+
 Then run the following:
+
 > python get-pip.py
+
 If you have downloaded it,skip the step.  
 MAKE SURE that you have installed ```requests```.
 > pip install -r requirements.txt
