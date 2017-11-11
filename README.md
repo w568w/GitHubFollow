@@ -6,7 +6,7 @@ Auto follow for gitstar.cn
 ### Step1
 Install Python 2.x,run```python --version```and```pip```for a test.  
 If you have downloaded it,skip the step.  
-MAKE SURE that you have installed ```requests```and```BeautifulSoup4```.
+MAKE SURE that you have installed ```requests```.
 ### Step2
 Open```main.py```,replace  
 ```
