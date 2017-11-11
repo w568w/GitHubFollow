@@ -7,6 +7,7 @@ Auto follow for gitstar.cn
 Install Python 2.x,run```python --version```and```pip```for a test.  
 If you have downloaded it,skip the step.  
 MAKE SURE that you have installed ```requests```.
+> pip install -r requirements.txt
 ### Step2
 Open```main.py```,replace  
 ```
